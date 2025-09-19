@@ -74,9 +74,23 @@ const createTodoElement = (todo: Todo, isDone: boolean) => {
   if (isDone) {
     button.textContent = "삭제";
     button.style.backgroundColor = "#dc3545";
+
+    button.addEventListener("mouseover", () => {
+      button.style.backgroundColor = "#c82333";
+    });
+    button.addEventListener("mouseout", () => {
+      button.style.backgroundColor = "#dc3545";
+    });
   } else {
     button.textContent = "완료";
-    button.style.backgroundColor = "#218838";
+    button.style.backgroundColor = "#28a745";
+
+    button.addEventListener("mouseover", () => {
+      button.style.backgroundColor = "#218838";
+    });
+    button.addEventListener("mouseout", () => {
+      button.style.backgroundColor = "#28a745";
+    });
   }
 
   button.addEventListener("click", () => {
