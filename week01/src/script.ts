@@ -66,7 +66,12 @@ const deleteTodo = (todo: Todo) => {
 const createTodoElement = (todo: Todo, isDone: boolean) => {
   const li = document.createElement("li");
   li.classList.add("render-container__item");
-  li.textContent = todo.text;
+
+  const p = document.createElement("p");
+  p.classList.add("render-container__item-text");
+  p.textContent = todo.text;
+
+  li.appendChild(p);
 
   const button = document.createElement("button");
   button.classList.add("render-container__item-button");
