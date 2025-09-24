@@ -1,4 +1,5 @@
 import "./App.css";
+import List from "./components/List";
 
 function App() {
   const nickname = "지니";
@@ -15,7 +16,8 @@ function App() {
 
       <ul>
         {techStacks.map((tech, idx) => (
-          <li key={idx}>{tech}</li>
+          // <li key={idx}>{tech}</li>
+          <List key={idx} tech={tech} />
         ))}
       </ul>
     </>
