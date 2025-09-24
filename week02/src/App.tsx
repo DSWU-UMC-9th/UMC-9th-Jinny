@@ -4,7 +4,14 @@ import List from "./components/List";
 function App() {
   const nickname = "지니";
   const tomato = "토마토";
-  const techStacks = ["REACT", "NEXT", "VUE", "SVELTE", "ANGULAR", "REACT-NATIVE"];
+  const techStacks = [
+    "REACT",
+    "NEXT",
+    "VUE",
+    "SVELTE",
+    "ANGULAR",
+    "REACT-NATIVE",
+  ] as const;
 
   return (
     <>
