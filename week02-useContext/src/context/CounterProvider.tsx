@@ -9,6 +9,7 @@ interface CounterContextType {
 
 // Context 생성
 // 초기값은 undefined로 설정
+// eslint-disable-next-line react-refresh/only-export-components
 export const CounterContext = createContext<CounterContextType | undefined>(undefined);
 
 // Context Provider 생성
@@ -25,6 +26,7 @@ export const CounterProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCount = () => {
   const context = useContext(CounterContext);
 
