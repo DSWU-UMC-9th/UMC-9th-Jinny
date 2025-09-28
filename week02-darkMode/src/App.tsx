@@ -1,7 +1,12 @@
 import "./App.css";
+import ContextPage from "./pages/ContextPage";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <ContextPage />
+    </>
+  );
 }
 
 export default App;
