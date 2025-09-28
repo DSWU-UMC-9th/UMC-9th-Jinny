@@ -1,6 +1,16 @@
 import { useState } from "react";
 import "./App.css";
 
+function heavyComputation() {
+  let result = 0;
+
+  for (let i = 0; i < 1_000_00000; i++) {
+    result += i;
+  }
+
+  return result;
+}
+
 function App() {
   const [count, setCount] = useState<number>(0);
 
@@ -35,6 +45,22 @@ function App() {
     }));
   };
 
+  // const [count2, setCount2] = useState(heavyComputation());
+  // const [count2, setCount2] = useState(() => heavyComputation());
+  const [count2, setCount2] = useState(heavyComputation);
+
+  const handleIncrease = () => {
+    setCount2((prev) => prev + 1);
+
+    // console.log(count2);
+  };
+
+  const handleDecrease = () => {
+    setCount2((prev) => prev - 1);
+  };
+
+  console.log(heavyComputation());
+
   return (
     <>
       <h1>{count}</h1>
@@ -48,6 +74,12 @@ function App() {
       {person.city && <h4>도시: {person.city}</h4>}
       <button onClick={updateCity}>도시 추가</button>
       <button onClick={increaseAge}>나이 증가</button>
+
+      <hr />
+
+      <h1>{count2}</h1>
+      <button onClick={handleDecrease}>감소</button>
+      <button onClick={handleIncrease}>증가</button>
     </>
   );
 }
