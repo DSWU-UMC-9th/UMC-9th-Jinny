@@ -8,7 +8,7 @@ const ThemeToggleButton = () => {
 
   return (
     <>
-      <input type="checkbox" id="toggle" className="hidden peer" onClick={toggleTheme} />
+      <input type="checkbox" id="toggle" className="hidden peer" onChange={toggleTheme} />
       <label
         htmlFor="toggle"
         className={clsx(
