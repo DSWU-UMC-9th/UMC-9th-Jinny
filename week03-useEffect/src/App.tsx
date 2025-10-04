@@ -3,6 +3,8 @@ import "./App.css";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import MoviePage from "./Pages/MoviePage";
 import SearchPage from "./Pages/SearchPage";
+import UseEffectPage from "./Pages/UseEffectPage";
+import CounterPage from "./Pages/CounterPage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -34,6 +36,12 @@ function App() {
           <button>
             <Link to={"/search"}>클린업 함수 기본 예제</Link>
           </button>
+          <button>
+            <Link to={"/useEffect"}>useEffect</Link>
+          </button>
+          <button>
+            <Link to={"/counter"}>counter</Link>
+          </button>
         </>
       ),
     },
@@ -44,6 +52,14 @@ function App() {
     {
       path: "/search",
       element: <SearchPage />,
+    },
+    {
+      path: "/useEffect",
+      element: <UseEffectPage />,
+    },
+    {
+      path: "/counter",
+      element: <CounterPage />,
     },
   ]);
 
