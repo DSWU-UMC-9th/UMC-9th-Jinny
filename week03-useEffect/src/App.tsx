@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
+import MoviePage from "./Pages/MoviePage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,18 +14,32 @@ function App() {
     console.log(`count 값이 ${count}로 변경될 때마다 실행`);
   }, [count]);
 
-  return (
-    <>
-      <h1>{count}</h1>
-      <button
-        onClick={() => {
-          setCount((prev) => prev + 1);
-        }}
-      >
-        +1 증가
-      </button>
-    </>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <>
+          <h1>{count}</h1>
+          <button
+            onClick={() => {
+              setCount((prev) => prev + 1);
+            }}
+          >
+            +1 증가
+          </button>
+          <button>
+            <Link to={"/movies"}> 영화 보러 가기</Link>
+          </button>
+        </>
+      ),
+    },
+    {
+      path: "/movies",
+      element: <MoviePage />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
