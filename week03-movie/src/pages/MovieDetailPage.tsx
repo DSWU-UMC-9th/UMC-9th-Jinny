@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { MovieDetail } from "../types/movie";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const MovieDetailPage = () => {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
@@ -44,32 +45,42 @@ const MovieDetailPage = () => {
   }
 
   return (
-    <div>
-      <div className="relative">
-        <img
-          src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-          alt={`${movie?.title}의 이미지`}
-          className="h-[300px] w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black to-tranparent"></div>
-
-        <div className="absolute top-0 text-white w-1/2 p-4 flex flex-col gap-2">
-          <h1 className="text-2xl font-bold">{movie?.title}</h1>
-
-          <div className="leading-[20px]">
-            <p>평균 {movie?.vote_average.toFixed(2)}</p>
-            <p>{movie?.release_date.slice(0, 4)}</p>
-            <p>{movie?.runtime}분</p>
-          </div>
-
-          <p className="text-xl font-semibold">{movie?.tagline}</p>
-
-          <div className="line-clamp-4 ">{movie?.overview}</div>
+    <>
+      {isPending && (
+        <div className="flex items-center justify-center h-dvh">
+          <LoadingSpinner />
         </div>
+      )}
 
-        <div className="absolute bottom-0 w-1/2 h-1 bg-gradient-to-r from-teal-500"></div>
-      </div>
-    </div>
+      {!isPending && (
+        <div>
+          <div className="relative">
+            <img
+              src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+              alt={`${movie?.title}의 이미지`}
+              className="h-[300px] w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black to-tranparent"></div>
+
+            <div className="absolute top-0 text-white w-1/2 p-4 flex flex-col gap-2">
+              <h1 className="text-2xl font-bold">{movie?.title}</h1>
+
+              <div className="leading-[20px]">
+                <p>평균 {movie?.vote_average.toFixed(2)}</p>
+                <p>{movie?.release_date.slice(0, 4)}</p>
+                <p>{movie?.runtime}분</p>
+              </div>
+
+              <p className="text-xl font-semibold">{movie?.tagline}</p>
+
+              <div className="line-clamp-4 ">{movie?.overview}</div>
+            </div>
+
+            <div className="absolute bottom-0 w-1/2 h-1 bg-gradient-to-r from-teal-500"></div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
