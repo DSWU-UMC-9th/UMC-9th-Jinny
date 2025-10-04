@@ -3,6 +3,7 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MoviePage from "./pages/MoviePage";
+import MovieDetailPage from "./pages/MovieDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: "movies/:category",
         element: <MoviePage />,
+      },
+      {
+        path: "movie/:movieId",
+        element: <MovieDetailPage />,
       },
     ],
   },
