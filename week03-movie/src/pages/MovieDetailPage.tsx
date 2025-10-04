@@ -111,7 +111,7 @@ const MovieDetailPage = () => {
               {credits.slice(0, 20).map((credit) => (
                 <div
                   key={credit.id}
-                  className="w-[200px] flex flex-col items-center justify-start gap-2"
+                  className="w-[200px] flex flex-col items-center justify-start gap-2 mt-5"
                 >
                   <img
                     src={`https://image.tmdb.org/t/p/original/${credit.profile_path}`}
