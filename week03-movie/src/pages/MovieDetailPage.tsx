@@ -85,7 +85,7 @@ const MovieDetailPage = () => {
                 alt={`${movie?.title}의 이미지`}
                 className="h-[350px] w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black to-tranparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
 
               <div className="absolute top-0 text-white w-1/2 px-4 py-8 flex flex-col gap-2">
                 <h1 className="text-2xl font-bold">{movie?.title}</h1>
