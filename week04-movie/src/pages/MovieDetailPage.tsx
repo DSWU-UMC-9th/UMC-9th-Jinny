@@ -1,64 +1,17 @@
-import { useEffect, useState } from "react";
-import type { Cast, MovieCredit, MovieDetail } from "../types/movie";
+import type { MovieCredit, MovieDetail } from "../types/movie";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+
 import LoadingSpinner from "../components/LoadingSpinner";
+import useCustomFetch from "../hooks/useCustomFetch";
 
 const MovieDetailPage = () => {
-  const [movie, setMovie] = useState<MovieDetail | null>(null);
-  const [credits, setCredits] = useState<Cast[]>([]);
-
-  const [isPending, setIsPending] = useState(false);
-  const [isError, setIsError] = useState(false);
-
   const { movieId } = useParams();
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setIsPending(true);
-      try {
-        const { data } = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-            },
-          }
-        );
+  const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`;
+  const [movie, isPending, isError] = useCustomFetch<MovieDetail>({ url: movieUrl });
 
-        setMovie(data);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsPending(false);
-      }
-    };
-
-    fetchMovies();
-  }, []);
-
-  useEffect(() => {
-    const fetchCredit = async () => {
-      setIsPending(true);
-      try {
-        const { data } = await axios.get<MovieCredit>(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-            },
-          }
-        );
-        setCredits(data.cast);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsPending(false);
-      }
-    };
-
-    fetchCredit();
-  }, []);
+  const creditUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
+  const [credits] = useCustomFetch<MovieCredit>({ url: creditUrl });
 
   if (isError) {
     return (
@@ -108,7 +61,7 @@ const MovieDetailPage = () => {
           <div>
             <p className="font-bold text-2xl p-4">감독/출연</p>
             <div className="flex flex-wrap gap-3">
-              {credits.slice(0, 20).map((credit) => (
+              {credits?.cast?.slice(0, 20)?.map((credit) => (
                 <div
                   key={credit.id}
                   className="w-[200px] flex flex-col items-center justify-start gap-2 mt-5"
