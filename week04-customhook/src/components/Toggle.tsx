@@ -1,12 +1,12 @@
-import { useState } from "react";
+import useToggle from "../hooks/useToggle";
 
 const Toggle = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, toggle] = useToggle(false);
 
   return (
     <>
       <h1>{isOpen ? "open" : "close"}</h1>
-      <button onClick={() => setIsOpen(!isOpen)}>toggle</button>
+      <button onClick={toggle}>toggle</button>
     </>
   );
 };
