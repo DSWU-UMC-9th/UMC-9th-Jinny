@@ -3,6 +3,7 @@ import { validateSignIn, type UserSignInformation } from "../utils/validate";
 
 import GoogleIcon from "../assets/google-logo.png";
 import { useNavigate } from "react-router-dom";
+import { postSignin } from "../apis/auth";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -11,8 +12,14 @@ const LoginPage = () => {
     validate: validateSignIn,
   });
 
-  const handleSubmit = () => {
-    console.log(values);
+  const handleSubmit = async () => {
+    try {
+      const response = await postSignin(values);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      console.log(response);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   // 오류가 하나라도 있거나, 입력값이 비어있으면 버튼 비활성화
