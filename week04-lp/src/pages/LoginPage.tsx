@@ -1,7 +1,11 @@
 import useForm from "../hooks/useForm";
 import { validateSignIn, type UserSignInformation } from "../utils/validate";
 
+import GoogleIcon from "../assets/google-logo.png";
+import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { values, errors, touched, getInputProps } = useForm<UserSignInformation>({
     initialValue: { email: "", password: "" },
     validate: validateSignIn,
@@ -19,9 +23,16 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
       <div className="flex flex-col gap-3">
+        <div className="flex text-2xl font-semibold p-3 my-3">
+          <p className="cursor-pointer" onClick={() => navigate(-1)}>
+            {"<"}
+          </p>
+          <p className="flex-1 text-center">로그인</p>
+        </div>
+
         <input
           {...getInputProps("email")}
-          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 ${
+          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
             errors?.email && touched?.email ? "border-red-500" : "border-gray-300"
           }`}
           type="email"
@@ -33,7 +44,7 @@ const LoginPage = () => {
 
         <input
           {...getInputProps("password")}
-          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 ${
+          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
             errors?.password && touched?.password ? "border-red-500" : "border-gray-300"
           }`}
           type="password"
@@ -51,6 +62,19 @@ const LoginPage = () => {
         >
           로그인
         </button>
+
+        <div className="flex items-center my-2">
+          <div className="w-full bg-gray-500 h-[2px]"></div>
+          <p className="mx-4">OR</p>
+          <div className="w-full w-full bg-gray-500 h-[2px]"></div>
+        </div>
+
+        <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-xs transition-all duration-300 ease-in-out">
+          <img src={GoogleIcon} alt="구글 로그인" className="w-6 self-center" />
+          <p className="flex-1 text-center text-lg font-medium text-gray-800">
+            구글 로그인
+          </p>
+        </div>
       </div>
     </div>
   );
