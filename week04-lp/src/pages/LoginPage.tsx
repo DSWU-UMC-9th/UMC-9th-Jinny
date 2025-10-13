@@ -2,7 +2,7 @@ import useForm from "../hooks/useForm";
 import { validateSignIn, type UserSignInformation } from "../utils/validate";
 
 import GoogleIcon from "../assets/google-logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { postSignin } from "../apis/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
@@ -20,6 +20,8 @@ const LoginPage = () => {
     try {
       const response = await postSignin(values);
       setItem(response.data.accessToken);
+
+      navigate("/");
     } catch (error) {
       alert(error);
     }
@@ -84,6 +86,13 @@ const LoginPage = () => {
           <p className="flex-1 text-center text-lg font-medium text-gray-800">
             구글 로그인
           </p>
+        </div>
+
+        <div className="w-full flex justify-center gap-3 mt-10">
+          <p className="text-gray-700">계정이 없으신가요?</p>
+          <Link to={"/signup"} className="text-blue-900">
+            회원가입
+          </Link>
         </div>
       </div>
     </div>
