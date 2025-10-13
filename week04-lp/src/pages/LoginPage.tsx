@@ -4,9 +4,13 @@ import { validateSignIn, type UserSignInformation } from "../utils/validate";
 import GoogleIcon from "../assets/google-logo.png";
 import { useNavigate } from "react-router-dom";
 import { postSignin } from "../apis/auth";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+
   const { values, errors, touched, getInputProps } = useForm<UserSignInformation>({
     initialValue: { email: "", password: "" },
     validate: validateSignIn,
@@ -15,8 +19,7 @@ const LoginPage = () => {
   const handleSubmit = async () => {
     try {
       const response = await postSignin(values);
-      localStorage.setItem("accessToken", response.data.accessToken);
-      console.log(response);
+      setItem(response.data.accessToken);
     } catch (error) {
       alert(error);
     }
