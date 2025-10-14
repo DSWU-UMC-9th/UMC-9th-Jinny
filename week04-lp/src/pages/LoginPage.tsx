@@ -44,7 +44,7 @@ const LoginPage = () => {
 
         <input
           {...getInputProps("email")}
-          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
             errors?.email && touched?.email ? "border-red-500" : "border-gray-300"
           }`}
           type="email"
@@ -56,7 +56,7 @@ const LoginPage = () => {
 
         <input
           {...getInputProps("password")}
-          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+          className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
             errors?.password && touched?.password ? "border-red-500" : "border-gray-300"
           }`}
           type="password"
@@ -81,7 +81,7 @@ const LoginPage = () => {
           <div className="w-full w-full bg-gray-500 h-[2px]"></div>
         </div>
 
-        <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-xs transition-all duration-300 ease-in-out">
+        <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-md transition-all duration-300 ease-in-out">
           <img src={GoogleIcon} alt="구글 로그인" className="w-6 self-center" />
           <p className="flex-1 text-center text-lg font-medium text-gray-800">
             구글 로그인

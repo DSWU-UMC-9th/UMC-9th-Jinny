@@ -86,7 +86,7 @@ const SignupPage = () => {
 
         {level === 0 && (
           <>
-            <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-xs transition-all duration-300 ease-in-out">
+            <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-md transition-all duration-300 ease-in-out">
               <img src={GoogleIcon} alt="구글 로그인" className="w-6 self-center" />
               <p className="flex-1 text-center text-lg font-medium text-gray-800">
                 구글 로그인
@@ -101,7 +101,7 @@ const SignupPage = () => {
 
             <input
               {...register("email")}
-              className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+              className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
                 errors?.email ? "border-red-500" : "border-gray-300"
               }`}
               type="email"
@@ -132,7 +132,7 @@ const SignupPage = () => {
             <div className="flex flex-col relative">
               <input
                 {...register("password")}
-                className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+                className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
                   errors?.password ? "border-red-500" : "border-gray-300"
                 }`}
                 type={showPassword.password ? "text" : "password"}
@@ -169,7 +169,7 @@ const SignupPage = () => {
             <div className="flex flex-col relative">
               <input
                 {...register("passwordCheck")}
-                className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+                className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
                   errors?.passwordCheck ? "border-red-500" : "border-gray-300"
                 }`}
                 type={showPassword.passCheck ? "text" : "password"}
@@ -225,7 +225,7 @@ const SignupPage = () => {
             <FaCircleUser className="w-full text-9xl text-gray-500 mb-3" />
             <input
               {...register("name")}
-              className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-xs ${
+              className={`border border-gray-300 outline-none w-[400px] p-3 focus:border-gray-500 rounded-lg transition-all duration-500 hover:border-gray-400 hover:shadow-md ${
                 errors?.name ? "border-red-500" : "border-gray-300"
               }`}
               type="name"
