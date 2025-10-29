@@ -3,13 +3,11 @@ import { validateSignIn, type UserSignInformation } from "../utils/validate";
 
 import GoogleIcon from "../assets/google-logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { postSignin } from "../apis/auth";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+  const { login } = useAuth();
 
   const { values, errors, touched, getInputProps } = useForm<UserSignInformation>({
     initialValue: { email: "", password: "" },
@@ -17,14 +15,7 @@ const LoginPage = () => {
   });
 
   const handleSubmit = async () => {
-    try {
-      const response = await postSignin(values);
-      setItem(response.data.accessToken);
-
-      navigate("/");
-    } catch (error) {
-      alert(error);
-    }
+    await login(values);
   };
 
   // 오류가 하나라도 있거나, 입력값이 비어있으면 버튼 비활성화

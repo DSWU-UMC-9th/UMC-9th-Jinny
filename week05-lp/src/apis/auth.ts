@@ -5,6 +5,7 @@ import type {
   ResponseSigninDto,
   ResponseSignupDto,
 } from "../types/auth";
+import type { CommonResponse } from "../types/common";
 import { axiosInstance } from "./axios";
 
 // 회원가입
@@ -24,6 +25,13 @@ export const postSignin = async (body: RequestSigninDto): Promise<ResponseSignin
 // 내 정보 조회
 export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
   const { data } = await axiosInstance.get("/v1/users/me");
+
+  return data;
+};
+
+// 로그아웃
+export const postSignout = async (): Promise<CommonResponse<null>> => {
+  const { data } = await axiosInstance.post("/v1/auth/signout");
 
   return data;
 };

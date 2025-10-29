@@ -8,13 +8,15 @@ const MyPage = () => {
   useEffect(() => {
     const getData = async () => {
       const response = await getMyInfo();
+      console.log(response);
+
       setData(response);
     };
 
     getData();
   }, []);
 
-  return <div>{data?.data.name}</div>;
+  return <div>{data?.data?.name}</div>;
 };
 
 export default MyPage;
