@@ -1,17 +1,9 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { postSignin, postSignout } from "../apis/auth";
-
-interface AuthContextType {
-  accessToken: string | null;
-  refreshToken: string | null;
-  login: (siginInData: RequestSigninDto) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
@@ -77,14 +69,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("AuthContext를 찾을 수 없습니다.");
-  }
-
-  return context;
 };

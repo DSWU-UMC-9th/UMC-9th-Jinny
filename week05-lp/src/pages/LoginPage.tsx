@@ -3,8 +3,8 @@ import { validateSignIn, type UserSignInformation } from "../utils/validate";
 
 import GoogleIcon from "../assets/google-logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();

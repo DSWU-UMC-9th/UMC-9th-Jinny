@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getMyInfo } from "../apis/auth";
 import type { ResponseMyInfoDto } from "../types/auth";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ProfileIcon from "../assets/mypage.svg";
+import { useAuth } from "../context/AuthContext";
 
 const MyPage = () => {
   const [data, setData] = useState<ResponseMyInfoDto>();
