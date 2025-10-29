@@ -4,10 +4,11 @@ import { validateSignIn, type UserSignInformation } from "../utils/validate";
 import GoogleIcon from "../assets/google-logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, accessToken } = useAuth();
 
   const { values, errors, touched, getInputProps } = useForm<UserSignInformation>({
     initialValue: { email: "", password: "" },
@@ -22,6 +23,12 @@ const LoginPage = () => {
   const isDisabled =
     Object.values(errors || {}).some((error) => error.length > 0) || // 오류가 있으면 true
     Object.values(values).some((value) => value === ""); // 입력값이 비어있으면 true
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [navigate, accessToken]);
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
