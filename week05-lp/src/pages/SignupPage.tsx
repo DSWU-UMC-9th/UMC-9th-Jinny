@@ -74,6 +74,10 @@ const SignupPage = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
       <div className="flex flex-col gap-3">
@@ -86,7 +90,10 @@ const SignupPage = () => {
 
         {level === 0 && (
           <>
-            <div className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-md transition-all duration-300 ease-in-out">
+            <div
+              onClick={handleGoogleLogin}
+              className="flex border border-gray-300 p-3 rounded-lg text-lg cursor-pointer hover:border-gray-400 hover:shadow-md transition-all duration-300 ease-in-out"
+            >
               <img src={GoogleIcon} alt="구글 로그인" className="w-6 self-center" />
               <p className="flex-1 text-center text-lg font-medium text-gray-800">
                 구글 로그인
