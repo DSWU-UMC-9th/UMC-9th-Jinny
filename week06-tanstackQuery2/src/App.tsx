@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import "./App.css";
+import { useCustomFetch } from "./hooks/useCustomFetch";
 
 interface User {
   id: number;
@@ -8,18 +8,17 @@ interface User {
 }
 
 function App() {
-  const [data, setData] = useState<User | null>(null);
+  const { data, isPending, isError } = useCustomFetch<User>(
+    "https://jsonplaceholder.typicode.com/users/1"
+  );
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
 
-      const data = (await response.json()) as User;
-      setData(data);
-    };
-
-    fetchData();
-  }, []);
+  if (isError) {
+    return <div>Error...</div>;
+  }
 
   return (
     <>
