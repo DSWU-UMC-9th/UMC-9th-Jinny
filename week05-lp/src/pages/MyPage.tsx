@@ -27,7 +27,7 @@ const MyPage = () => {
 
   return (
     <div className="flex justify-center items-center w-full h-full px-[40px]">
-      <div className="flex flex-col gap-8 max-w-[500px] py-[40px] rounded-xl w-full items-center justify-center shadow-md hover:shadow-xl transition-all duration-500">
+      <div className="flex flex-col gap-8 max-w-[500px] py-[40px] rounded-xl w-full items-center justify-center shadow-md hover:shadow-xl transition-all duration-500 border border-gray-200/50">
         <div className="flex flex-col gap-2 items-center justify-between">
           <img
             src={data?.data.avatar || ProfileIcon}
