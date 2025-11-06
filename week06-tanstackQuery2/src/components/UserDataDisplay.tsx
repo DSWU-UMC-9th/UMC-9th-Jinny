@@ -49,7 +49,7 @@ export const WelcomeData = () => {
 
 const UserDataDisplay = ({ userId }: { userId: number }) => {
   const { data, isPending, isError } = useCustomFetch<WelcomeData>(
-    `https://jsonplaceholder.typicode.com/users/${userId}11`
+    `https://jsonplaceholder.typicode.com/users/${userId}`
   );
 
   if (isPending) {
