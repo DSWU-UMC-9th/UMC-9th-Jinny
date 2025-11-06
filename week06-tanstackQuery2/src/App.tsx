@@ -1,30 +1,14 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
-import { useCustomFetch } from "./hooks/useCustomFetch";
+import { WelcomeData } from "./components/UserDataDisplay";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+const queryClient = new QueryClient();
 
-function App() {
-  const { data, isPending, isError } = useCustomFetch<User>(
-    "https://jsonplaceholder.typicode.com/users/1"
-  );
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error...</div>;
-  }
-
+export function App() {
   return (
-    <>
-      <h1>Tanstack Query</h1>
-      {data?.name}
-    </>
+    <QueryClientProvider client={queryClient}>
+      <WelcomeData />;
+    </QueryClientProvider>
   );
 }
 
