@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 py-6 mt-12 text-gray-300">
+    <footer className="bg-gray-900 py-6 text-gray-300">
       <div className="container mx-auto text-center">
         <p>&copy; {new Date().getFullYear()} LP All rights reserved</p>
         <div className="flex justify-center space-x-4 mt-4">
