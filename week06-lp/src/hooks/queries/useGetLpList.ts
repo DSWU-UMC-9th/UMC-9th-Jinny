@@ -5,7 +5,7 @@ import { QUERY_KEY } from "../../constants/key";
 
 const useGetLpList = ({ cursor, search, order, limit }: PaginationDto) => {
   return useQuery({
-    queryKey: [QUERY_KEY.lps, search, order],
+    queryKey: [QUERY_KEY.lps, order],
     queryFn: () => getLpList({ cursor, search, order, limit }),
 
     // 컴포넌트가 마운트 되거나 처음에 포커스 들어오는 경우에도 재요청하지 않음
