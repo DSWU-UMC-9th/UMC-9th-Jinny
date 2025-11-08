@@ -1,13 +1,29 @@
-import { useState } from "react";
-import useGetLpList from "../hooks/queries/useGetLpList";
+import { useEffect, useState } from "react";
 import LpCard from "../components/LpCard";
 import { PAGINATION_ORDER } from "../enums/common";
 import LoadingSpinner from "../components/LoadingSpinner";
+import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
+import { useInView } from "react-intersection-observer";
 
 const HomePage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
 
-  const { data, isPending, isError } = useGetLpList({ order });
+  // const { data, isPending, isError } = useGetLpList({ order });
+
+  const { data, isPending, isError, isFetching, hasNextPage, fetchNextPage } =
+    useGetInfiniteLpList({ limit: 10, order });
+
+  // ref: 특정한 HTML 요소를 검사할 수 있음
+  // inView: 그 요소가 화면에 보이면 true
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && !isFetching && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   if (isPending) {
     return (
@@ -48,10 +64,12 @@ const HomePage = () => {
       </div>
 
       <div className="flex flex-wrap gap-4 justify-center">
-        {data?.map((lp) => (
-          <LpCard data={lp} />
-        ))}
+        {data.pages
+          .map((page) => page.data.data)
+          .flatMap((lps) => lps.map((lp) => <LpCard key={lp.id} data={lp} />))}
       </div>
+
+      <div ref={ref} className="mt-2 h-2"></div>
     </div>
   );
 };
