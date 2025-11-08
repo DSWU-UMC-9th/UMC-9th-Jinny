@@ -74,7 +74,9 @@ const HomePage = () => {
           .map((page) => page.data.data)
           .flatMap((lps) => lps.map((lp) => <LpCard key={lp.id} data={lp} />))}
 
-        {(isFetching || isFetchingNextPage) && <LpCardSkeletonList count={20} />}
+        {(isFetching || isFetchingNextPage || isPending) && (
+          <LpCardSkeletonList count={20} />
+        )}
       </div>
 
       <div ref={ref} className="mt-2 h-2"></div>

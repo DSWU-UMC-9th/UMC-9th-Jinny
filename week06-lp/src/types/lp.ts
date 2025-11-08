@@ -53,3 +53,16 @@ export type LpDetailDto = {
 };
 
 export type ResponseLpDetailDto = CommonResponse<LpDetailDto>;
+
+// 댓글 목록 조회
+export type Comments = {
+  id: number;
+  content: string;
+  lpId: number;
+  authorId: number;
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
+};
+
+export type ResponseLpCommentsDto = CursorBasedResponse<Comments[]>;
