@@ -11,6 +11,8 @@ import { AuthProvider } from "./context/AuthProvider";
 import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import CreatePage from "./pages/CreatePage";
+import SearchPage from "./pages/SearchPage";
 
 // 1. 홈페이지
 // 2. 로그인 페이지
@@ -30,6 +32,8 @@ const publicRoutes: RouteObject[] = [
       },
       { path: "signup", element: <SignupPage /> },
       { path: "v1/auth/google/callback", element: <GoogleLoginRedirectPage /> },
+      { path: "/create", element: <CreatePage /> },
+      { path: "/search", element: <SearchPage /> },
     ],
   },
 ];

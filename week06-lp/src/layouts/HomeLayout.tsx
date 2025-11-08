@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import FloatingButton from "../components/FloationButton";
+import FloatingButton from "../components/FloatingButton";
 
 const HomeLayout = () => {
   return (
