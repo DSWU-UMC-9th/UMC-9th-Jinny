@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import FloatingButton from "../components/FloatingButton";
 
 const ProtectedLayout = () => {
   const { accessToken } = useAuth();
@@ -17,6 +18,7 @@ const ProtectedLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <FloatingButton />
     </div>
   );
 };
