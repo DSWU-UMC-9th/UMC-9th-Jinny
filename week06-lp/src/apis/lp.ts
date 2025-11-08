@@ -1,5 +1,5 @@
 import type { PaginationDto } from "../types/common";
-import type { ResponseLpListDto } from "../types/lp";
+import type { ResponseLpDetailDto, ResponseLpListDto } from "../types/lp";
 import { axiosInstance } from "./axios";
 
 // lp 목록 조회
@@ -9,6 +9,13 @@ export const getLpList = async (
   const { data } = await axiosInstance.get("/v1/lps", {
     params: paginationDto,
   });
+
+  return data;
+};
+
+// lp 상세 조회
+export const getLpDetail = async (lpId: number): Promise<ResponseLpDetailDto> => {
+  const { data } = await axiosInstance.get(`/v1/lps/${lpId}`);
 
   return data;
 };

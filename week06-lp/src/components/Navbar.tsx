@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full z-10">
+    <nav className="fixed w-full z-10 bg-white">
       <div className="flex items-center justify-between p-4">
         <div className="flex gap-4 items-center">
           <Menu
