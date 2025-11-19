@@ -33,9 +33,9 @@ const publicRoutes: RouteObject[] = [
       },
       { path: "signup", element: <SignupPage /> },
       { path: "v1/auth/google/callback", element: <GoogleLoginRedirectPage /> },
-      { path: "/create", element: <CreatePage /> },
-      { path: "/search", element: <SearchPage /> },
-      { path: "/lp/:lpId", element: <LpDetailPage /> },
+      { path: "create", element: <CreatePage /> },
+      { path: "search", element: <SearchPage /> },
+      { path: "lp/:lpId", element: <LpDetailPage /> },
     ],
   },
 ];
@@ -43,11 +43,12 @@ const publicRoutes: RouteObject[] = [
 // protectedRoutes: 인증이 필요한 라우트
 const protectedRoutes: RouteObject[] = [
   {
-    path: "/",
+    path: "/mypage",
     element: <ProtectedLayout />,
-    children: [{ path: "mypage", element: <MyPage /> }],
+    children: [{ index: true, element: <MyPage /> }],
   },
 ];
+
 const router = createBrowserRouter([...publicRoutes, ...protectedRoutes]);
 
 const queryClient = new QueryClient({
