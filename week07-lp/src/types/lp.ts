@@ -93,3 +93,26 @@ export type ResponsePostLpDto = CommonResponse<{
   createdAt: Date;
   updatedAt: Date;
 }>;
+
+// 댓글 생성
+export type RequestPostCommentDto = {
+  content: string;
+};
+
+export type ResponsePostCommentDto = {
+  id: number;
+  content: string;
+  lpId: number;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  author: {
+    id: number;
+    name: string;
+    email: string;
+    bio: null | string;
+    avatar: null | string;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+};

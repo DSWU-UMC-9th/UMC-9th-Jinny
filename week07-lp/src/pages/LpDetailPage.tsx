@@ -11,6 +11,7 @@ import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 import { useAuth } from "../context/AuthContext";
 import usePostLikes from "../hooks/mutations/usePostLikes";
 import useDeleteLikes from "../hooks/mutations/useDeleteLikes";
+import usePostComment from "../hooks/mutations/usePostComment";
 
 const LpDetailPage = () => {
   const { lpId } = useParams();
@@ -27,6 +28,8 @@ const LpDetailPage = () => {
   const { mutate: likeMutate } = usePostLikes();
   const { mutate: dislikeMutate } = useDeleteLikes();
 
+  const { mutate: postCommentMutate } = usePostComment();
+
   // const isLiked = data?.likes
   //   .map((like) => like.userId)
   //   .includes(myData?.data.id as number);
@@ -38,6 +41,19 @@ const LpDetailPage = () => {
 
   const handleDislikeLp = () => {
     dislikeMutate(Number(lpId));
+  };
+
+  const handleSubmitComment = (lpId: number, input: string) => {
+    postCommentMutate({ lpId, body: { content: input } });
+    setInput("");
+  };
+
+  const handleSubmitCommentEnter = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    lpId: number,
+    input: string
+  ) => {
+    if (e.key === "Enter") handleSubmitComment(lpId, input);
   };
 
   const {
@@ -152,11 +168,15 @@ const LpDetailPage = () => {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => handleSubmitCommentEnter(e, Number(lpId), input)}
             placeholder="댓글을 입력해주세요"
             className="flex-1 border border-gray-300 shadow-sm rounded-xl py-2 px-3 hover:border-gray-400 hover:shadow-md duration-500 outline-none cursor-pointer"
           />
 
-          <button className="rounded-xl border bg-gray-900 px-4 text-white cursor-pointer">
+          <button
+            onClick={() => handleSubmitComment(Number(lpId), input)}
+            className="rounded-xl border bg-gray-900 px-4 text-white cursor-pointer"
+          >
             작성
           </button>
         </div>

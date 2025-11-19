@@ -1,10 +1,12 @@
 import type { PaginationDto } from "../types/common";
 import type {
+  RequestPostCommentDto,
   RequestPostLpDto,
   ResponseLikesDto,
   ResponseLpCommentsDto,
   ResponseLpDetailDto,
   ResponseLpListDto,
+  ResponsePostCommentDto,
   ResponsePostLpDto,
 } from "../types/lp";
 import { axiosInstance } from "./axios";
@@ -56,6 +58,19 @@ export const deleteLikes = async (lpId: number): Promise<ResponseLikesDto> => {
 // Lp 생성
 export const postLp = async (body: RequestPostLpDto): Promise<ResponsePostLpDto> => {
   const { data } = await axiosInstance.post("/v1/lps", body);
+
+  return data;
+};
+
+// 댓글 생성
+export const postComment = async ({
+  lpId,
+  body,
+}: {
+  lpId: number;
+  body: RequestPostCommentDto;
+}): Promise<ResponsePostCommentDto> => {
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, body);
 
   return data;
 };
