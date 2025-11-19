@@ -73,3 +73,23 @@ export type ResponseLikesDto = CommonResponse<{
   userId: number;
   lpId: number;
 }>;
+
+// lp 생성
+export type RequestPostLpDto = {
+  title: string;
+  content: string;
+  thumbnail?: string | null;
+  tags: string[];
+  published: boolean;
+};
+
+export type ResponsePostLpDto = CommonResponse<{
+  id: number;
+  title: string;
+  content: string;
+  thumbnail: string;
+  published: boolean;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}>;

@@ -1,6 +1,8 @@
 import { ImageDown, MoveLeft, X } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import usePostLp from "../hooks/mutations/usePostLp";
+import type { RequestPostLpDto } from "../types/lp";
 
 const CreatePage = () => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -11,6 +13,8 @@ const CreatePage = () => {
   const [content, setContent] = useState<string>("");
 
   const navigate = useNavigate();
+
+  const { mutate } = usePostLp();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,6 +41,11 @@ const CreatePage = () => {
 
   const handleDeleteTags = (id: number) => {
     setTags((prev) => prev.filter((tag) => tag.id !== id));
+  };
+
+  const handleSubmit = (body: RequestPostLpDto) => {
+    mutate(body);
+    navigate("/");
   };
 
   return (
@@ -114,7 +123,18 @@ const CreatePage = () => {
             ))}
         </div>
 
-        <button className="w-full bg-gray-800 text-white py-2 rounded-lg text-md font-medium hover:bg-gray-900 transition-colors duration-500 ease-in-out cursor-pointer">
+        <button
+          onClick={() =>
+            handleSubmit({
+              title: content,
+              content,
+              thumbnail: preview,
+              tags: tags.map((tag) => tag.tag),
+              published: true,
+            })
+          }
+          className="w-full bg-gray-800 text-white py-2 rounded-lg text-md font-medium hover:bg-gray-900 transition-colors duration-500 ease-in-out cursor-pointer"
+        >
           Add LP
         </button>
       </div>

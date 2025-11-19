@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import LpCardSkeletonList from "../components/LpCardSkeletonList";
 
 const HomePage = () => {
-  const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
+  const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
 
   const {
     data,
