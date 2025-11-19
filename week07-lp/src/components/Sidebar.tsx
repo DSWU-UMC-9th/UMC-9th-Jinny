@@ -1,5 +1,8 @@
 import { X, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import ExitModal from "./ExitModat";
 
 interface SidebarProps {
   showSidebar: boolean;
@@ -20,10 +23,13 @@ const Sidebar = ({ showSidebar, setShowSidebar }: SidebarProps) => {
     },
   ];
 
+  const { accessToken } = useAuth();
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   return (
     <>
       <div
-        className={`flex flex-col gap-4 bg-white px-4 pt-5 h-dvh w-[250px] absolute left-0 top-0 z-2 transform transition-transform duration-400 ease-in-out shadow-lg ${
+        className={`flex flex-col gap-4 bg-white px-4 py-5 h-dvh w-[250px] absolute left-0 top-0 z-2 transform transition-transform duration-400 ease-in-out shadow-lg ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -44,6 +50,18 @@ const Sidebar = ({ showSidebar, setShowSidebar }: SidebarProps) => {
             <ChevronRight />
           </Link>
         ))}
+
+        {accessToken && (
+          <div
+            onClick={() => {
+              setShowSidebar(false);
+              setShowModal((prev) => !prev);
+            }}
+            className="flex-1 flex flex-col justify-end cursor-pointer"
+          >
+            탈퇴하기
+          </div>
+        )}
       </div>
 
       {showSidebar && (
@@ -52,6 +70,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }: SidebarProps) => {
           className="fixed inset-0 bg-black/30 z-1"
         ></div>
       )}
+
+      {showModal && <ExitModal setShowModal={() => setShowModal(false)} />}
     </>
   );
 };
