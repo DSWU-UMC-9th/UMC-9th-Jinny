@@ -66,3 +66,10 @@ export type Comments = {
 };
 
 export type ResponseLpCommentsDto = CursorBasedResponse<Comments[]>;
+
+// 게시글 좋아요, 게시글 좋아요 취소
+export type ResponseLikesDto = CommonResponse<{
+  id: number;
+  userId: number;
+  lpId: number;
+}>;

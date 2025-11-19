@@ -1,5 +1,6 @@
 import type { PaginationDto } from "../types/common";
 import type {
+  ResponseLikesDto,
   ResponseLpCommentsDto,
   ResponseLpDetailDto,
   ResponseLpListDto,
@@ -32,6 +33,20 @@ export const getLpComments = async (
   const { data } = await axiosInstance.get(`/v1/lps/${lpId}/comments`, {
     params: paginationDto,
   });
+
+  return data;
+};
+
+// 게시글 좋아요
+export const postLikes = async (lpId: number): Promise<ResponseLikesDto> => {
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/likes`);
+
+  return data;
+};
+
+// 게시글 좋아요 취소
+export const deleteLikes = async (lpId: number): Promise<ResponseLikesDto> => {
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/likes`);
 
   return data;
 };

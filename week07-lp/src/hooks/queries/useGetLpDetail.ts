@@ -4,7 +4,7 @@ import { getLpDetail } from "../../apis/lp";
 
 const useGetLpDetail = (lpId: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.lps, `${lpId}`],
+    queryKey: [QUERY_KEY.lps, lpId],
     queryFn: () => getLpDetail(lpId),
     select: (data) => data.data,
   });

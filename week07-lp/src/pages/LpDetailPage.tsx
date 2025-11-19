@@ -7,13 +7,38 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { PAGINATION_ORDER } from "../enums/common";
 import CommentSkeleton from "../components/CommentSkeleton";
+import useGetMyInfo from "../hooks/queries/useGetMyInfo";
+import { useAuth } from "../context/AuthContext";
+import usePostLikes from "../hooks/mutations/usePostLikes";
+import useDeleteLikes from "../hooks/mutations/useDeleteLikes";
 
 const LpDetailPage = () => {
   const { lpId } = useParams();
+  const { accessToken } = useAuth();
+
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
   const [input, setInput] = useState("");
 
   const { data, isPending, isError } = useGetLpDetail(Number(lpId));
+  const { data: myData } = useGetMyInfo(accessToken);
+
+  // mutate -> 비동기 요청을 실행하고 콜백 함수를 이용해서 후속 작업을 처리함
+  // mutateAsync -> Promise를 반환해서 await 사용 가능
+  const { mutate: likeMutate } = usePostLikes();
+  const { mutate: dislikeMutate } = useDeleteLikes();
+
+  // const isLiked = data?.likes
+  //   .map((like) => like.userId)
+  //   .includes(myData?.data.id as number);
+  const isLiked = data?.likes.some((like) => like.userId === myData?.data.id);
+
+  const handleLikeLp = () => {
+    likeMutate(Number(lpId));
+  };
+
+  const handleDislikeLp = () => {
+    dislikeMutate(Number(lpId));
+  };
 
   const {
     data: commentsData,
@@ -84,7 +109,12 @@ const LpDetailPage = () => {
         </section>
 
         <section className="flex gap-3 text-gray-500 justify-end mt-5">
-          <Heart className="text-red-500 cursor-pointer" />
+          <Heart
+            onClick={isLiked ? handleDislikeLp : handleLikeLp}
+            className="text-red-500 cursor-pointer"
+            fill={isLiked ? "red" : "white"}
+          />
+
           {data?.likes.length}
         </section>
       </div>

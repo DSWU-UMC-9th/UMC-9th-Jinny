@@ -35,6 +35,7 @@ const publicRoutes: RouteObject[] = [
       { path: "v1/auth/google/callback", element: <GoogleLoginRedirectPage /> },
       { path: "/create", element: <CreatePage /> },
       { path: "/search", element: <SearchPage /> },
+      { path: "/lp/:lpId", element: <LpDetailPage /> },
     ],
   },
 ];
@@ -44,23 +45,20 @@ const protectedRoutes: RouteObject[] = [
   {
     path: "/",
     element: <ProtectedLayout />,
-    children: [
-      { path: "mypage", element: <MyPage /> },
-      { path: "/lp/:lpId", element: <LpDetailPage /> },
-    ],
+    children: [{ path: "mypage", element: <MyPage /> }],
   },
 ];
 const router = createBrowserRouter([...publicRoutes, ...protectedRoutes]);
 
-export function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: 3,
-      },
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
     },
-  });
+  },
+});
 
+export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
