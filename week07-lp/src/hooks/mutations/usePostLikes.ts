@@ -1,34 +1,53 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLikes } from "../../apis/lp";
 import { QUERY_KEY } from "../../constants/key";
+import type { Likes, ResponseLpDetailDto } from "../../types/lp";
+import type { ResponseMyInfoDto } from "../../types/auth";
 
 function usePostLikes() {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: postLikes,
-    // data -> API 성공 응답 데이터
-    // variables -> mutate에 전달한 값
-    // context -> onMutate에서 반환한 값
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.lps, data.data.lpId],
-        exact: true,
+
+    onMutate: async (lpId) => {
+      await queryClient.cancelQueries({
+        queryKey: [QUERY_KEY.lps, lpId],
       });
+
+      const previousLpPost = queryClient.getQueryData<ResponseLpDetailDto>([
+        QUERY_KEY.lps,
+        lpId,
+      ]);
+
+      const newLpPost = { ...previousLpPost };
+
+      const me = queryClient.getQueryData<ResponseMyInfoDto>([QUERY_KEY.myInfo]);
+      const userId = Number(me?.data.id);
+
+      const likedIndex =
+        previousLpPost?.data.likes.findIndex((like) => like.id === userId) ?? -1;
+
+      if (likedIndex >= 0) {
+        previousLpPost?.data.likes.splice(likedIndex, 1);
+      } else {
+        const newLike = { userId, lpId } as Likes;
+        previousLpPost?.data.likes.push(newLike);
+      }
+
+      queryClient.setQueryData([QUERY_KEY.lps, lpId], newLpPost);
+
+      return { previousLpPost, newLpPost };
     },
 
-    // error -> 요청 실패 시 발생한 에러
-    // variables -> mutated에 전달한 값
-    // context -> onMutate에서 반환한 값
-    // onError: (error, variables, context) => {},
+    onError: (_error, newLp, context) => {
+      queryClient.setQueryData([QUERY_KEY.lps, newLp], context?.previousLpPost);
+    },
 
-    // 요청 직전에 실행
-    // Optimistic Update를 구현할 때 유용
-    onMutate: () => {},
-
-    // 요청이 끝난 후 항상 실행됨 onSuccess, onError 후에 실행됨
-    // 로딩 상태를 초기화할 때 유용함
-    onSettled: () => {},
+    onSettled: async (_data, _error, variable) => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.lps, variable],
+      });
+    },
   });
 }
 
