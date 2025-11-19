@@ -1,21 +1,40 @@
-import { ImageDown, MoveLeft } from "lucide-react";
-import { useState } from "react";
+import { ImageDown, MoveLeft, X } from "lucide-react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
   const [preview, setPreview] = useState<string | null>(null);
+  //  {id:1, tag:"string"}
+  const [tags, setTags] = useState<{ id: number; tag: string }[]>([]);
+  const [tagInput, setTagInput] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("file", file);
-
     if (!file) return;
 
     const previewUrl = URL.createObjectURL(file);
-    console.log("p", previewUrl);
-
     setPreview(previewUrl);
+  };
+
+  const handleAddTags = (tag: string) => {
+    if (tag === "") return;
+    setTagInput("");
+    setTags((prev) => [...prev, { id: Date.now(), tag }]);
+  };
+
+  const handleAddTagsByEnter = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    tag: string
+  ) => {
+    if (e.key === "Enter") {
+      handleAddTags(tag);
+    }
+  };
+
+  const handleDeleteTags = (id: number) => {
+    setTags((prev) => prev.filter((tag) => tag.id !== id));
   };
 
   return (
@@ -58,12 +77,34 @@ const CreatePage = () => {
 
         <div className="flex w-full gap-3">
           <input
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => handleAddTagsByEnter(e, tagInput)}
             placeholder="LP Tag"
-            className="flex-1 flex-1 border border-gray-300 shadow-sm rounded-xl py-2 px-3 hover:border-gray-400 hover:shadow-md duration-500 outline-none cursor-pointer"
+            className="flex-1 border border-gray-300 shadow-sm rounded-xl py-2 px-3 hover:border-gray-400 hover:shadow-md duration-500 outline-none cursor-pointer"
           />
-          <button className="bg-gray-800 text-white py-2 px-8 rounded-lg text-md font-medium hover:bg-gray-900 transition-colors duration-500 ease-in-out cursor-pointer">
+          <button
+            onClick={() => handleAddTags(tagInput)}
+            className="bg-gray-800 text-white py-2 px-8 rounded-lg text-md font-medium hover:bg-gray-900 transition-colors duration-500 ease-in-out cursor-pointer"
+          >
             Add
           </button>
+        </div>
+
+        <div className="w-full flex gap-2">
+          {tags &&
+            tags.map((tag) => (
+              <div
+                key={tag.id}
+                className="flex gap-2 items-center bg-gray-200 justify-between rounded-3xl py-2 px-3 outline-none"
+              >
+                {tag.tag}
+                <X
+                  className="size-4 cursor-pointer"
+                  onClick={() => handleDeleteTags(tag.id)}
+                />
+              </div>
+            ))}
         </div>
 
         <button className="w-full bg-gray-800 text-white py-2 rounded-lg text-md font-medium hover:bg-gray-900 transition-colors duration-500 ease-in-out cursor-pointer">
