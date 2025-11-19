@@ -1,7 +1,9 @@
 import type {
+  RequestPatchUserDto,
   RequestSigninDto,
   RequestSignupDto,
   ResponseMyInfoDto,
+  ResponsePatchUserDto,
   ResponseSigninDto,
   ResponseSignupDto,
 } from "../types/auth";
@@ -32,6 +34,15 @@ export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
 // 로그아웃
 export const postSignout = async (): Promise<CommonResponse<null>> => {
   const { data } = await axiosInstance.post("/v1/auth/signout");
+
+  return data;
+};
+
+// 유저 정보 수정
+export const patchUser = async (
+  body: RequestPatchUserDto
+): Promise<ResponsePatchUserDto> => {
+  const { data } = await axiosInstance.patch("/v1/users", body);
 
   return data;
 };
