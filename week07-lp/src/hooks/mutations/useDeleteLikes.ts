@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteLikes } from "../../apis/lp";
-import { queryClient } from "../../App";
 import { QUERY_KEY } from "../../constants/key";
 
 function useDeleteLikes() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deleteLikes,
     onSuccess: (data) => {

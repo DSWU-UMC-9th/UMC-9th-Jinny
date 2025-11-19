@@ -50,7 +50,7 @@ const protectedRoutes: RouteObject[] = [
 ];
 const router = createBrowserRouter([...publicRoutes, ...protectedRoutes]);
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 3,

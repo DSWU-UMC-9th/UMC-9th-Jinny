@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLikes } from "../../apis/lp";
-import { queryClient } from "../../App";
 import { QUERY_KEY } from "../../constants/key";
 
 function usePostLikes() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: postLikes,
     // data -> API 성공 응답 데이터
