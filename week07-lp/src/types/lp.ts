@@ -116,3 +116,8 @@ export type ResponsePostCommentDto = {
     updatedAt: Date;
   };
 };
+
+// 댓글 삭제
+export type ResponseDeleteCommentDto = CommonResponse<{
+  message: string;
+}>;

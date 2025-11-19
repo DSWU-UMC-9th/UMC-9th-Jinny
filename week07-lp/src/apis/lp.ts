@@ -2,6 +2,7 @@ import type { PaginationDto } from "../types/common";
 import type {
   RequestPostCommentDto,
   RequestPostLpDto,
+  ResponseDeleteCommentDto,
   ResponseLikesDto,
   ResponseLpCommentsDto,
   ResponseLpDetailDto,
@@ -71,6 +72,19 @@ export const postComment = async ({
   body: RequestPostCommentDto;
 }): Promise<ResponsePostCommentDto> => {
   const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, body);
+
+  return data;
+};
+
+// 댓글 삭제
+export const deleteComment = async ({
+  lpId,
+  commentId,
+}: {
+  lpId: number;
+  commentId: number;
+}): Promise<ResponseDeleteCommentDto> => {
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/comments/${commentId}`);
 
   return data;
 };

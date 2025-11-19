@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useGetLpDetail from "../hooks/queries/useGetLpDetail";
-import { Heart, Pencil, TrashIcon } from "lucide-react";
+import { Heart, Pencil, TrashIcon, EllipsisVertical } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import useGetInfiniteLpComments from "../hooks/queries/useGetInfiniteLpComments";
 import { useInView } from "react-intersection-observer";
@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import usePostLikes from "../hooks/mutations/usePostLikes";
 import useDeleteLikes from "../hooks/mutations/useDeleteLikes";
 import usePostComment from "../hooks/mutations/usePostComment";
+import DropDown from "../components/DropDown";
 
 const LpDetailPage = () => {
   const { lpId } = useParams();
@@ -19,9 +20,25 @@ const LpDetailPage = () => {
 
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
   const [input, setInput] = useState("");
+  const [showDropDownId, setShowDropDownId] = useState<number | null>(null);
 
   const { data, isPending, isError } = useGetLpDetail(Number(lpId));
   const { data: myData } = useGetMyInfo(accessToken);
+
+  const {
+    data: commentsData,
+    isFetching: isFetchingComments,
+    isFetchingNextPage: isFetchingNextCommentsPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetInfiniteLpComments(Number(lpId), {
+    limit: 5,
+    order: order,
+  });
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
 
   // mutate -> 비동기 요청을 실행하고 콜백 함수를 이용해서 후속 작업을 처리함
   // mutateAsync -> Promise를 반환해서 await 사용 가능
@@ -34,6 +51,14 @@ const LpDetailPage = () => {
   //   .map((like) => like.userId)
   //   .includes(myData?.data.id as number);
   const isLiked = data?.likes.some((like) => like.userId === myData?.data.id);
+
+  const flatCommentsData = commentsData?.pages
+    .map((page) => page.data)
+    .flatMap((comment) => comment.data)
+    .map((comment) => ({
+      ...comment,
+      isMine: comment.authorId === myData?.data.id,
+    }));
 
   const handleLikeLp = () => {
     likeMutate(Number(lpId));
@@ -55,21 +80,6 @@ const LpDetailPage = () => {
   ) => {
     if (e.key === "Enter") handleSubmitComment(lpId, input);
   };
-
-  const {
-    data: commentsData,
-    isFetching: isFetchingComments,
-    isFetchingNextPage: isFetchingNextCommentsPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useGetInfiniteLpComments(Number(lpId), {
-    limit: 5,
-    order: order,
-  });
-
-  const { ref, inView } = useInView({
-    threshold: 0,
-  });
 
   useEffect(() => {
     if (inView && !isFetchingComments && hasNextPage) {
@@ -182,10 +192,8 @@ const LpDetailPage = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          {commentsData?.pages
-            .map((page) => page.data)
-            .flatMap((comments) => comments.data)
-            .map((comment) => (
+          {flatCommentsData?.map((comment) => (
+            <div className="flex justify-between">
               <div className="flex gap-3 items-start">
                 <img
                   src={comment.author.avatar}
@@ -197,7 +205,23 @@ const LpDetailPage = () => {
                   <p>{comment.content}</p>
                 </div>
               </div>
-            ))}
+              {comment.isMine && (
+                <div className="relative">
+                  <EllipsisVertical
+                    onClick={() =>
+                      setShowDropDownId((prev) =>
+                        prev === comment.id ? null : comment.id
+                      )
+                    }
+                    className="cursor-pointer hover:text-gray-500"
+                  />
+                  {showDropDownId === comment.id && (
+                    <DropDown lpId={Number(lpId)} commentId={comment.id} />
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
 
           {(isFetchingComments || isFetchingNextCommentsPage) && <CommentSkeleton />}
         </div>
