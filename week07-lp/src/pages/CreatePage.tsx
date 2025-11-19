@@ -7,6 +7,8 @@ const CreatePage = () => {
   //  {id:1, tag:"string"}
   const [tags, setTags] = useState<{ id: number; tag: string }[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [name, setName] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -67,10 +69,15 @@ const CreatePage = () => {
         </div>
 
         <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="LP Name"
           className="w-full flex-1 border border-gray-300 shadow-sm rounded-xl py-2 px-3 hover:border-gray-400 hover:shadow-md duration-500 outline-none cursor-pointer"
         />
+
         <input
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           placeholder="LP Content"
           className="w-full flex-1 border border-gray-300 shadow-sm rounded-xl py-2 px-3 hover:border-gray-400 hover:shadow-md duration-500 outline-none cursor-pointer"
         />
