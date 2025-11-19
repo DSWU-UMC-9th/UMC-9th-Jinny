@@ -2,7 +2,6 @@ import { useState, type ReactNode } from "react";
 import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { postSignout } from "../apis/auth";
 import { AuthContext } from "./AuthContext";
 import usePostSignin from "../hooks/mutations/usePostSignin";
 import usePostSignout from "../hooks/mutations/usePostSignout";

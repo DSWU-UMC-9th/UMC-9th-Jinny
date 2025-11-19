@@ -65,6 +65,7 @@ const MyPage = () => {
               <h1 className="font-bold text-lg">
                 {data?.data.name} <span className="font-medium">님</span>
               </h1>
+              <h3 className="text-gray-800">{data?.data.bio}</h3>
             </>
           )}
 
