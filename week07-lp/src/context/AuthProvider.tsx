@@ -5,6 +5,7 @@ import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { postSignout } from "../apis/auth";
 import { AuthContext } from "./AuthContext";
 import usePostSignin from "../hooks/mutations/usePostSignin";
+import usePostSignout from "../hooks/mutations/usePostSignout";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const { mutateAsync: mutateSignin } = usePostSignin();
+  const { mutate: mutateSignout } = usePostSignout();
 
   const login = async (signInData: RequestSigninDto) => {
     try {
@@ -55,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await postSignout();
+      mutateSignout();
       removeAccessTokenFromStorage();
       removeRefreshTokenFromStorage();
 
