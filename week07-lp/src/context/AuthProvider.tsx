@@ -2,8 +2,9 @@ import { useState, type ReactNode } from "react";
 import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { postSignin, postSignout } from "../apis/auth";
+import { postSignout } from "../apis/auth";
 import { AuthContext } from "./AuthContext";
+import usePostSignin from "../hooks/mutations/usePostSignin";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
@@ -26,9 +27,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     getRefreshTokenFromStorage()
   );
 
+  const { mutateAsync: mutateSignin } = usePostSignin();
+
   const login = async (signInData: RequestSigninDto) => {
     try {
-      const { data } = await postSignin(signInData);
+      const { data } = await mutateSignin(signInData);
 
       if (data) {
         const newAccessToken = data.accessToken;
