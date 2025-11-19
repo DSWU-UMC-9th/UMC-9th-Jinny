@@ -121,3 +121,22 @@ export type ResponsePostCommentDto = {
 export type ResponseDeleteCommentDto = CommonResponse<{
   message: string;
 }>;
+
+// 댓글 수정
+export type ResponsePatchCommentDto = CommonResponse<{
+  id: number;
+  content: string;
+  lpId: number;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  author: {
+    id: number;
+    name: string;
+    email: string;
+    bio: null | string;
+    avatar: null | string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}>;

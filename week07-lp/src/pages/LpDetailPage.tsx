@@ -13,6 +13,7 @@ import usePostLikes from "../hooks/mutations/usePostLikes";
 import useDeleteLikes from "../hooks/mutations/useDeleteLikes";
 import usePostComment from "../hooks/mutations/usePostComment";
 import DropDown from "../components/DropDown";
+import usePatchComment from "../hooks/mutations/usePatchComment";
 
 const LpDetailPage = () => {
   const { lpId } = useParams();
@@ -21,6 +22,8 @@ const LpDetailPage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
   const [input, setInput] = useState("");
   const [showDropDownId, setShowDropDownId] = useState<number | null>(null);
+  const [editCommentId, setEditCommentId] = useState<number | null>(null);
+  const [editInput, setEditInput] = useState("");
 
   const { data, isPending, isError } = useGetLpDetail(Number(lpId));
   const { data: myData } = useGetMyInfo(accessToken);
@@ -46,6 +49,7 @@ const LpDetailPage = () => {
   const { mutate: dislikeMutate } = useDeleteLikes();
 
   const { mutate: postCommentMutate } = usePostComment();
+  const { mutate: patchCommentMutate } = usePatchComment();
 
   // const isLiked = data?.likes
   //   .map((like) => like.userId)
@@ -71,6 +75,10 @@ const LpDetailPage = () => {
   const handleSubmitComment = (lpId: number, input: string) => {
     postCommentMutate({ lpId, body: { content: input } });
     setInput("");
+  };
+
+  const handlePatchComment = (lpId: number, commentId: number, content: string) => {
+    patchCommentMutate({ lpId, commentId, content });
   };
 
   const handleSubmitCommentEnter = (
@@ -194,29 +202,68 @@ const LpDetailPage = () => {
         <div className="flex flex-col gap-4">
           {flatCommentsData?.map((comment) => (
             <div className="flex justify-between">
-              <div className="flex gap-3 items-start">
+              <div className="flex gap-3 items-start flex-1">
                 <img
                   src={comment.author.avatar}
                   alt={`${comment.author}의 이미지`}
                   className="size-6 rounded-full"
                 />
-                <div>
+                <div className="flex-1">
                   <p className="font-semibold text-gray-600">{comment.author.name}</p>
-                  <p>{comment.content}</p>
+
+                  {editCommentId !== comment.id && <p>{comment.content}</p>}
+
+                  {editCommentId === comment.id && (
+                    <>
+                      <input
+                        value={editInput}
+                        onChange={(e) => setEditInput(e.target.value)}
+                        className="w-[90%] border-b-2 border-gray-300 py-2 outline-none cursor-pointer"
+                      />
+                    </>
+                  )}
                 </div>
               </div>
               {comment.isMine && (
                 <div className="relative">
-                  <EllipsisVertical
-                    onClick={() =>
-                      setShowDropDownId((prev) =>
-                        prev === comment.id ? null : comment.id
-                      )
-                    }
-                    className="cursor-pointer hover:text-gray-500"
-                  />
+                  {/* 수정 중 */}
+                  {editCommentId === comment.id && (
+                    <button
+                      onClick={() => {
+                        setEditCommentId(null);
+                        handlePatchComment(Number(lpId), comment.id, editInput);
+                      }}
+                      className="cursor-pointer text-gray-500 px-1 hover:text-gray-600"
+                    >
+                      수정 완료
+                    </button>
+                  )}
+
+                  {/* 수정 중 아닐 때 */}
+                  {editCommentId !== comment.id && (
+                    <EllipsisVertical
+                      onClick={() =>
+                        setShowDropDownId((prev) =>
+                          prev === comment.id ? null : comment.id
+                        )
+                      }
+                      className="cursor-pointer hover:text-gray-500"
+                    />
+                  )}
+
+                  {/* 드롭다운 클릭 시 */}
                   {showDropDownId === comment.id && (
-                    <DropDown lpId={Number(lpId)} commentId={comment.id} />
+                    <DropDown
+                      lpId={Number(lpId)}
+                      commentId={comment.id}
+                      onEdit={() => {
+                        setEditCommentId((prev) =>
+                          prev === comment.id ? null : comment.id
+                        );
+                        setShowDropDownId(null);
+                        setEditInput(comment.content);
+                      }}
+                    />
                   )}
                 </div>
               )}

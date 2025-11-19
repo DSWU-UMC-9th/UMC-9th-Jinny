@@ -3,9 +3,10 @@ import useDeleteComment from "../hooks/mutations/useDeleteComment";
 interface DropDownProps {
   lpId: number;
   commentId: number;
+  onEdit: () => void;
 }
 
-const DropDown = ({ lpId, commentId }: DropDownProps) => {
+const DropDown = ({ lpId, commentId, onEdit }: DropDownProps) => {
   const MENU = [
     { id: 1, label: "수정하기" },
     { id: 2, label: "삭제하기" },
@@ -23,6 +24,7 @@ const DropDown = ({ lpId, commentId }: DropDownProps) => {
       {MENU.map((menu) => (
         <p
           onClick={() => {
+            if (menu.id === 1) onEdit();
             if (menu.id === 2) handleDeleteComment(lpId, commentId);
           }}
           key={menu.id}
