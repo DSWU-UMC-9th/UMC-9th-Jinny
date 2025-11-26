@@ -1,7 +1,7 @@
 import { X, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExitModal from "./ExitModat";
 
 interface SidebarProps {
@@ -25,6 +25,16 @@ const Sidebar = ({ showSidebar, setShowSidebar }: SidebarProps) => {
 
   const { accessToken } = useAuth();
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (showSidebar) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showSidebar]);
 
   return (
     <>
