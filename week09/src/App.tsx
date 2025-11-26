@@ -14,6 +14,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CreatePage from "./pages/CreatePage";
 import SearchPage from "./pages/SearchPage";
 import LpDetailPage from "./pages/LpDetailPage";
+import ThrottlePage from "./pages/ThrottlePage";
 
 // 1. 홈페이지
 // 2. 로그인 페이지
@@ -36,6 +37,7 @@ const publicRoutes: RouteObject[] = [
       { path: "create", element: <CreatePage /> },
       { path: "search", element: <SearchPage /> },
       { path: "lp/:lpId", element: <LpDetailPage /> },
+      { path: "/throttle", element: <ThrottlePage /> },
     ],
   },
 ];
