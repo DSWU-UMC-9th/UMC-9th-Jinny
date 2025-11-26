@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Menu, Search, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 
 const Navbar = () => {
@@ -11,6 +11,18 @@ const Navbar = () => {
   const handleShowSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleClose = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowSidebar(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleClose);
+
+    return () => window.removeEventListener("keydown", handleClose);
+  }, []);
 
   return (
     <nav className="fixed w-full z-10 bg-white">
