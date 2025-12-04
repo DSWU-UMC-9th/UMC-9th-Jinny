@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "../hooks/useCustomRedux";
-import { clearCart } from "../slices/cartSlice";
+import { openModal } from "../slices/modalSlice";
+import Modal from "./Modal";
 
 const PriceBox = () => {
   const { total } = useSelector((state) => state.cart);
+  const { isOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   const handleInitializeCart = () => {
-    dispatch(clearCart());
+    dispatch(openModal());
   };
 
   return (
@@ -19,6 +21,8 @@ const PriceBox = () => {
       </button>
 
       <div>총 가격: {total}원</div>
+
+      {isOpen && <Modal />}
     </div>
   );
 };
