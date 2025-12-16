@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface TextInputProps {
   onChange: (text: string) => void;
 }
@@ -8,4 +10,4 @@ const TextInput = ({ onChange }: TextInputProps) => {
   return <input type="text" onChange={(e) => onChange(e.target.value)}></input>;
 };
 
-export default TextInput;
+export default memo(TextInput);
