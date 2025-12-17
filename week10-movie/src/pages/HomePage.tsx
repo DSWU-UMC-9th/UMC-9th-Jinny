@@ -33,13 +33,15 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-[80%]">
-      <MovieFilter onChange={handleMovieFilters} />
-      {isLoading ? (
-        <div>로딩 중 입니다... </div>
-      ) : (
-        <MovieList movies={data?.results || []} />
-      )}
+    <div className="w-full flex justify-center">
+      <div className="flex flex-col items-center justify-center w-[80%]">
+        <MovieFilter onChange={handleMovieFilters} />
+        {isLoading ? (
+          <div>로딩 중 입니다... </div>
+        ) : (
+          <MovieList movies={data?.results || []} />
+        )}
+      </div>
     </div>
   );
 };
