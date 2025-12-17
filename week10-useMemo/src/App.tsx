@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
 import { findPrimeNumbers } from "./utils/math";
@@ -17,7 +17,7 @@ function App() {
     setText(text);
   };
 
-  const primes = findPrimeNumbers(limit);
+  const primes = useMemo(() => findPrimeNumbers(limit), [limit]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
